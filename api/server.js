@@ -15,7 +15,7 @@ app.post('/api/chat', async (req, res) => {
     // Invio della richiesta all'API di Undrstnd
     const response = await axios.post('https://dev.undrstnd-labs.com/api', req.body, {
       headers: {
-        'x-api-key': 'your-api-key-here',  // Sostituisci con la tua chiave API
+        'x-api-key': 'udsk_demo-api-key-x-00000',  // Sostituisci con la tua chiave API
       },
     });
     res.json(response.data);
