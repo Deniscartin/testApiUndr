@@ -1,0 +1,15 @@
+{
+    "name": "undrstnd-lib-backend",
+    "version": "1.0.0",
+    "description": "Backend for Undrstnd API integration",
+    "main": "api/server.js",
+    "scripts": {
+      "start": "node api/server.js"
+    },
+    "dependencies": {
+      "axios": "",
+      "cors": "",
+      "express": ""
+    }
+  }
+  
