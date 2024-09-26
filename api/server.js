@@ -1,31 +1,35 @@
 const express = require('express');
-const axios = require('axios');
 const cors = require('cors');
-const app = express();
-const port = 5000;
+const axios = require('axios');
 
+const app = express();
+// Allow requests from any origin
+app.use(cors({
+  origin: '*', // This allows all origins
+}));
 app.use(express.json());
 
-// Abilita CORS per tutte le origini
-app.use(cors());
+app.post('/api/chat', async (req, res) => { // Change endpoint to root
+  const { messages, stream = false, modelId = 'llama-3.1-8b-instant', system = "groq" } = req.body;
 
-// Endpoint per gestire le richieste dal frontend
-app.post('/api/chat', async (req, res) => {
   try {
-    const { apiKey, ...restOfRequest } = req.body; // Estrai apiKey dai dati della richiesta
-
-    // Invio della richiesta all'API di Undrstnd
-    const response = await axios.post('https://dev.undrstnd-labs.com/api', restOfRequest, {
+    const response = await axios.post('https://dev.undrstnd-labs.com/api', {
+      stream,
+      modelId,
+      system,
+      messages
+    }, {
       headers: {
-        'x-api-key': apiKey,  // Usa la chiave API fornita dal client
-      },
+        'x-api-key': 'udsk_xZX39BJtJyBmw8RGgUTGmdG966eT2VGaDLoW84'
+      }
     });
+
     res.json(response.data);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error);
+    res.status(500).json({ error: 'Error processing the request' });
   }
 });
 
-app.listen(port, () => {
-  console.log(`Backend server running on http://localhost:${port}`);
-});
+// Export the express handler
+module.exports = app;
