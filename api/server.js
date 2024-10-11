@@ -10,17 +10,17 @@ app.use(cors({
 app.use(express.json());
 
 app.post('/api/chat', async (req, res) => { // Change endpoint to root
-  const { messages, stream = false, modelId = 'llama-3.1-8b-instant', system = "groq" } = req.body;
+  const { messages, stream = false, model = 'llama-3.1-8b-instant', system = "groq" } = req.body;
 
   try {
-    const response = await axios.post('https://dev.undrstnd-labs.com/api', {
+    const response = await axios.post('https://api.undrstnd-labs.com/v1/chat/completions', {
       stream,
-      modelId,
+      model,
       system,
       messages
     }, {
       headers: {
-        'x-api-key': 'udsk_xZX39BJtJyBmw8RGgUTGmdG966eT2VGaDLoW84'
+        'Authorization': 'Bearer udsk_xZX39BJtJyBmw8RGgUTGmdG966eT2VGaDLoW84'
       }
     });
 
