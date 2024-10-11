@@ -31,7 +31,8 @@ app.post('/api/chat', async (req, res) => {
     const fullResponse = response.data.choices[0].message.content;
     const [answer, ...emotionTags] = fullResponse.split(/\[EMOTION\d+:/);
     
-    const emotions = emotionTags.map(tag => {
+    // Rename this variable to avoid conflict
+    const parsedEmotions = emotionTags.map(tag => {
       const emotion = tag.split(']')[0].toLowerCase();
       return emotions.includes(emotion) ? emotion : 'neutral';
     });
@@ -43,7 +44,7 @@ app.post('/api/chat', async (req, res) => {
         message: {
           ...response.data.choices[0].message,
           content: answer.trim(),
-          emotions: emotions
+          emotions: parsedEmotions // Use the renamed variable here
         }
       }]
     });
