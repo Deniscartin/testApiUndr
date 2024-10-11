@@ -20,7 +20,7 @@ app.post('/api/chat', async (req, res) => {
       system,
       messages: [
         ...messages,
-        { role: 'system', content: 'After your response, on a new line, add an emotion tag like this: [EMOTION:happy]. Choose from: neutral, happy, sad, angry, surprised, disgusted, fearful.' }
+        { role: 'system', content: 'After your response, on a new line, add an emotion tag like this: [EMOTION:happy]. Choose from: neutral, happy, sad, angry, surprised, disgusted, fearful. Balance every answer to the correct emotion, do not be always neutral!' }
       ]
     }, {
       headers: {
