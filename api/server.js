@@ -20,7 +20,7 @@ app.post('/api/chat', async (req, res) => {
       system,
       messages: [
         ...messages,
-        { role: 'system', content: 'After your response, on a new line, add an emotion tag like this: [EMOTION:happy]. Choose from: neutral, happy, sad, angry, surprised, disgusted, fearful. Balance every answer to the correct emotion, do not be always neutral!' }
+        { role: 'system', content: 'After your response, on a new line, add at least two emotion tags like this: [EMOTION1:happy][EMOTION2:surprised]. You can add more if needed. Choose from: neutral, happy, sad, angry, surprised, disgusted, fearful. Balance the emotions to match the content of your response.' }
       ]
     }, {
       headers: {
@@ -29,8 +29,12 @@ app.post('/api/chat', async (req, res) => {
     });
 
     const fullResponse = response.data.choices[0].message.content;
-    const [answer, emotionTag] = fullResponse.split(/\[EMOTION:/);
-    const emotion = emotionTag ? emotionTag.split(']')[0].toLowerCase() : 'neutral';
+    const [answer, ...emotionTags] = fullResponse.split(/\[EMOTION\d+:/);
+    
+    const emotions = emotionTags.map(tag => {
+      const emotion = tag.split(']')[0].toLowerCase();
+      return emotions.includes(emotion) ? emotion : 'neutral';
+    });
 
     res.json({
       ...response.data,
@@ -39,7 +43,7 @@ app.post('/api/chat', async (req, res) => {
         message: {
           ...response.data.choices[0].message,
           content: answer.trim(),
-          emotion: emotions.includes(emotion) ? emotion : 'neutral'
+          emotions: emotions
         }
       }]
     });
