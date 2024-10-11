@@ -20,7 +20,7 @@ app.post('/api/chat', async (req, res) => {
       system,
       messages: [
         ...messages,
-        { role: 'system', content: 'After your response, on a new line, add at least two emotion tags like this: [EMOTION1:happy][EMOTION2:surprised]. You can add more if needed. Choose from: neutral, happy, sad, angry, surprised, disgusted, fearful. Balance the emotions to match the content of your response.' }
+        { role: 'system', content: 'After your response, on a new line, add at least two emotion tags like this: [EMOTION1:happy][EMOTION2:surprised]. You can add more if needed. Choose from: neutral, happy, sad, angry, surprised, disgusted, fearful. Balance the emotions to match the content of your response. Never use the same emotion twice in the same answer.' }
       ]
     }, {
       headers: {
